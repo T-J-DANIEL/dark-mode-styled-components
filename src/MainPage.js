@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import styles from "./mainPageStyles.module.css"
-
+//good simple guide to css modules:
+//https://programmingwithmosh.com/react/css-modules-react/
 const getStorageTheme = () => {
   let theme = "light-theme"
   if (localStorage.getItem("theme")) {
