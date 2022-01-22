@@ -1,14 +1,23 @@
-import Card from "./Card"
 import MainPage from "./MainPage"
-import articles from "./data"
+import { ThemeProvider } from "styled-components"
 
 function App() {
+  const theme = {
+    darkTheme: {
+      bgColor: "rgb(87, 85, 85)",
+      textColor: "rgb(255, 255, 255)",
+      titleColor: "rgb(235, 97, 97)",
+    },
+    lightTheme: {
+      bgColor: "white",
+      textColor: "black",
+      titleColor: "black",
+    },
+  }
   return (
-    <MainPage>
-      {articles.map((item, index) => (
-        <Card key={index} article={item} />
-      ))}
-    </MainPage>
+    <ThemeProvider theme={theme}>
+      <MainPage />
+    </ThemeProvider>
   )
 }
 

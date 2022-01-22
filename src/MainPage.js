@@ -1,39 +1,48 @@
-import { useState, useEffect } from "react"
-import styles from "./mainPageStyles.module.css"
-//good simple guide to css modules:
-//https://programmingwithmosh.com/react/css-modules-react/
+import { useState } from "react"
+import Card from "./Card"
+import articles from "./data"
+import {
+  StyledContainer,
+  StyledHeader,
+  StyledButton,
+} from "./styles/MainPage.styled"
+import GlobalStyles from "./styles/Global"
+
 const getStorageTheme = () => {
-  let theme = "light-theme"
+  let theme = "lightTheme"
   if (localStorage.getItem("theme")) {
-    theme = localStorage.getItem("theme")
+    theme =
+      localStorage.getItem("theme") === "dark-theme"
+        ? "darkTheme"
+        : "lightTheme"
   }
   return theme
 }
-
-const MainPage = ({ children }) => {
-  const [theme, setTheme] = useState(getStorageTheme())
-
+const MainPage = () => {
+  const [currentTheme, setCurrentTheme] = useState(getStorageTheme())
   const toggleTheme = () => {
-    if (theme === "light-theme") {
-      setTheme("dark-theme")
+    if (currentTheme === "lightTheme") {
+      setCurrentTheme("darkTheme")
     } else {
-      setTheme("light-theme")
+      setCurrentTheme("lightTheme")
     }
   }
 
-useEffect(() => {
-  document.documentElement.className = theme
-  localStorage.setItem("theme", theme)
-}, [theme])
-
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
+    <StyledContainer>
+      <GlobalStyles currentTheme={currentTheme} />
+      <StyledHeader>
         <h1>REACTionary</h1>
-        <button onClick={toggleTheme}>Toggle</button>
+        <StyledButton currentTheme={currentTheme} onClick={toggleTheme}>
+          Toggle
+        </StyledButton>
+      </StyledHeader>
+      <div>
+        {articles.map((item, index) => (
+          <Card key={index} article={item} currentTheme={currentTheme} />
+        ))}
       </div>
-      <div className={styles.cardsContainer}>{children}</div>
-    </div>
+    </StyledContainer>
   )
 }
 
